@@ -1,130 +1,425 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#263238">
-  <meta name="description" content="淡江學生課表：課表、備註、記事、離線使用">
-  <title>淡江課表</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <meta name="theme-color" content="#263238">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="淡江課表">
+
+    <title>淡江課表</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <header class="topbar">
-    <div>
-      <div class="title">淡江課表</div>
-      <div class="subtitle" id="semesterLabel">尚未同步</div>
-    </div>
-    <div class="top-actions">
-      <button id="syncBtn" class="secondary">同步</button>
-      <button id="settingsBtn" class="icon-btn" aria-label="設定">⚙</button>
-    </div>
-  </header>
 
-  <main class="container">
-    <section class="status-card">
-      <div>
-        <div id="studentName" class="status-title">尚未登入校務系統</div>
-        <div id="studentId" class="status-text">可先使用內建範例資料測試</div>
-      </div>
-      <div id="onlineStatus" class="pill">離線可用</div>
-    </section>
+    <!-- 最上方標題 -->
+    <header class="topbar">
 
-    <div id="notice" class="notice hidden"></div>
-
-    <section class="week-nav">
-      <button id="prevWeek">‹</button>
-      <div class="week-title">
-        <button id="todayBtn">今天</button>
-        <div id="weekLabel"></div>
-      </div>
-      <button id="nextWeek">›</button>
-    </section>
-
-    <section id="scheduleGrid" class="schedule-grid"></section>
-  </main>
-
-  <dialog id="courseDialog">
-    <form method="dialog" id="courseForm" class="dialog-form">
-      <div class="dialog-header">
         <div>
-          <div class="dialog-title" id="dialogTitle">課程</div>
-          <div class="dialog-subtitle" id="dialogSchoolName"></div>
+            <div class="app-title">
+                淡江課表
+            </div>
+
+            <div class="app-subtitle">
+                我的課表
+            </div>
         </div>
-        <button value="cancel" class="icon-btn">✕</button>
-      </div>
 
-      <input type="hidden" id="courseId">
+        <button
+            id="settingsButton"
+            class="header-button"
+            type="button">
+            ⚙
+        </button>
 
-      <label>顯示課程名稱
-        <input id="customName" type="text" placeholder="留空則使用學校原名稱">
-      </label>
+    </header>
 
-      <label>學校原始名稱
-        <input id="schoolName" type="text" readonly>
-      </label>
 
-      <div class="two-col">
-        <label>教師
-          <input id="teacher" type="text" readonly>
-        </label>
-        <label>教室
-          <input id="room" type="text" readonly>
-        </label>
-      </div>
+    <!-- 主要內容 -->
+    <main class="main">
 
-      <label>課程說明
-        <textarea id="description" rows="5" readonly></textarea>
-      </label>
+        <!-- 目前狀態 -->
+        <section class="status-card">
 
-      <label>我的備註
-        <textarea id="note" rows="4" placeholder="例如：記得帶筆電、考試範圍……"></textarea>
-      </label>
+            <div>
+                <div
+                    id="studentName"
+                    class="student-name">
+                    尚未登入
+                </div>
 
-      <div class="journal-header">
-        <strong>我的記事</strong>
-        <button type="button" id="addJournalBtn" class="secondary small">＋新增</button>
-      </div>
-      <div id="journalList" class="journal-list"></div>
+                <div
+                    id="studentInfo"
+                    class="student-info">
+                    目前使用範例課表
+                </div>
+            </div>
 
-      <div class="dialog-actions">
-        <button type="button" id="deleteCourseBtn" class="danger">刪除本機課程</button>
-        <button type="submit" class="primary">儲存</button>
-      </div>
-    </form>
-  </dialog>
+            <div
+                id="networkStatus"
+                class="network-status">
+                離線可用
+            </div>
 
-  <dialog id="settingsDialog">
-    <form method="dialog" class="dialog-form">
-      <div class="dialog-header">
-        <div>
-          <div class="dialog-title">設定</div>
-          <div class="dialog-subtitle">本機資料與同步</div>
+        </section>
+
+
+        <!-- 星期切換 -->
+        <section class="week-selector">
+
+            <button
+                id="previousWeek"
+                class="week-button"
+                type="button">
+                ‹
+            </button>
+
+            <div class="current-week">
+
+                <button
+                    id="todayButton"
+                    class="today-button"
+                    type="button">
+                    今天
+                </button>
+
+                <div
+                    id="weekText"
+                    class="week-text">
+                </div>
+
+            </div>
+
+            <button
+                id="nextWeek"
+                class="week-button"
+                type="button">
+                ›
+            </button>
+
+        </section>
+
+
+        <!-- 課表 -->
+        <section
+            id="schedule"
+            class="schedule">
+        </section>
+
+    </main>
+
+
+    <!-- 課程詳細資料 -->
+    <dialog
+        id="courseDialog"
+        class="dialog">
+
+        <form
+            id="courseForm"
+            class="dialog-content">
+
+            <div class="dialog-header">
+
+                <div>
+                    <div
+                        id="courseTitle"
+                        class="dialog-title">
+                    </div>
+
+                    <div
+                        id="courseOriginalName"
+                        class="dialog-subtitle">
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    id="closeCourseButton"
+                    class="close-button">
+                    ✕
+                </button>
+
+            </div>
+
+
+            <!-- 自訂名稱 -->
+            <label class="field-label">
+
+                顯示名稱
+
+                <input
+                    id="customName"
+                    type="text"
+                    placeholder="留空就使用學校課名">
+
+            </label>
+
+
+            <!-- 原本課名 -->
+            <div class="info-box">
+
+                <div class="info-title">
+                    學校原始名稱
+                </div>
+
+                <div id="schoolName">
+                </div>
+
+            </div>
+
+
+            <div class="two-columns">
+
+                <div class="info-box">
+
+                    <div class="info-title">
+                        教師
+                    </div>
+
+                    <div id="teacher">
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-title">
+                        地點
+                    </div>
+
+                    <div id="room">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-title">
+                    上課時間
+                </div>
+
+                <div id="courseTime">
+                </div>
+
+            </div>
+
+
+            <label class="field-label">
+
+                課程說明
+
+                <textarea
+                    id="description"
+                    rows="5"
+                    readonly>
+                </textarea>
+
+            </label>
+
+
+            <label class="field-label">
+
+                我的備註
+
+                <textarea
+                    id="note"
+                    rows="4"
+                    placeholder="例如：記得帶筆電">
+                </textarea>
+
+            </label>
+
+
+            <!-- 記事 -->
+            <div>
+
+                <div class="journal-title-row">
+
+                    <div class="journal-title">
+                        我的記事
+                    </div>
+
+                    <button
+                        type="button"
+                        id="addJournalButton"
+                        class="small-button">
+                        ＋ 新增
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="journalList"
+                    class="journal-list">
+                </div>
+
+            </div>
+
+
+            <div class="dialog-actions">
+
+                <button
+                    type="button"
+                    id="cancelCourseButton"
+                    class="secondary-button">
+                    取消
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button">
+                    儲存
+                </button>
+
+            </div>
+
+        </form>
+
+    </dialog>
+
+
+    <!-- 設定 -->
+    <dialog
+        id="settingsDialog"
+        class="dialog">
+
+        <div class="dialog-content">
+
+            <div class="dialog-header">
+
+                <div>
+                    <div class="dialog-title">
+                        設定
+                    </div>
+
+                    <div class="dialog-subtitle">
+                        淡江課表
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    id="closeSettingsButton"
+                    class="close-button">
+                    ✕
+                </button>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <div class="settings-title">
+                    本機資料
+                </div>
+
+                <button
+                    id="loadDemoButton"
+                    class="settings-button"
+                    type="button">
+                    載入範例課表
+                </button>
+
+
+                <button
+                    id="exportButton"
+                    class="settings-button"
+                    type="button">
+                    匯出我的課表
+                </button>
+
+
+                <label
+                    class="settings-button file-button">
+
+                    匯入課表
+
+                    <input
+                        id="importFile"
+                        type="file"
+                        accept=".json,application/json">
+
+                </label>
+
+
+                <button
+                    id="clearButton"
+                    class="settings-button danger-button"
+                    type="button">
+                    清除本機資料
+                </button>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <div class="settings-title">
+                    學生資料
+                </div>
+
+                <div class="settings-information">
+
+                    <div>
+                        學生姓名
+                    </div>
+
+                    <strong id="settingsStudentName">
+                        尚未登入
+                    </strong>
+
+                </div>
+
+
+                <div class="settings-information">
+
+                    <div>
+                        學號
+                    </div>
+
+                    <strong id="settingsStudentId">
+                        尚未取得
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <div class="settings-title">
+                    淡江同步
+                </div>
+
+                <div class="settings-description">
+
+                    下一階段會在這裡加入
+                    淡江 SSO / eMis 同步功能。
+
+                </div>
+
+            </div>
+
         </div>
-        <button value="cancel" class="icon-btn">✕</button>
-      </div>
 
-      <div class="settings-block">
-        <strong>資料</strong>
-        <button type="button" id="loadDemoBtn" class="secondary">載入範例課表</button>
-        <button type="button" id="exportBtn" class="secondary">匯出 JSON</button>
-        <label class="file-btn">
-          匯入 JSON
-          <input id="importFile" type="file" accept=".json,application/json">
-        </label>
-        <button type="button" id="clearBtn" class="danger">清除本機全部資料</button>
-      </div>
+    </dialog>
 
-      <div class="settings-block">
-        <strong>同步方式</strong>
-        <p class="muted">
-          「同步」會提示如何啟動本機 Playwright 同步程式。
-          淡江帳號密碼不會寫進這個網站。
-        </p>
-      </div>
-    </form>
-  </dialog>
 
-  <script src="app.js"></script>
+    <script src="app.js"></script>
+
 </body>
 </html>

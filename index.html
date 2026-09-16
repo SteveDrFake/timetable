@@ -143,8 +143,58 @@
     </section>
 
     <section class="settings-section">
+      <div class="section-title">帳號</div>
+    
+      <div class="settings-line">
+        <span>姓名</span>
+        <strong id="settingStudentName">尚未取得</strong>
+      </div>
+    
+      <div class="settings-line">
+        <span>學號</span>
+        <strong id="settingStudentId">尚未取得</strong>
+      </div>
+    
+      <button
+        id="tkuLoginButton"
+        class="settings-button"
+        type="button">
+        🔐 淡江 SSO 登入
+      </button>
+    
+      <button
+        id="tkuLogoutButton"
+        class="settings-button"
+        type="button">
+        🚪 淡江 SSO 登出
+      </button>
+    </section>
+    
+    <section class="settings-section">
+      <div class="section-title">資料</div>
+    
+      <button
+        id="clearCoursesButton"
+        class="settings-button"
+        type="button">
+        🗑 清除課表
+      </button>
+    
+      <button
+        id="logoutAppButton"
+        class="settings-button danger-button"
+        type="button">
+        🔒 登出並清除本機資料
+      </button>
+    </section>
+    
+    <section class="settings-section">
       <div class="section-title">淡江同步</div>
-      <p class="muted">下一階段會接上淡江 SSO、TMWC020 與課表頁面，自動同步正式資料。</p>
+    
+      <p class="muted">
+        下一階段會接上淡江 SSO、TMWC020 與課表頁面，
+        自動同步正式課程、教師、教室與座號。
+      </p>
     </section>
   </div>
 </dialog>

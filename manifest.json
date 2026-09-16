@@ -1,12 +1,1 @@
-{
-  "name": "淡江課表",
-  "short_name": "淡江課表",
-  "description": "淡江學生課表",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#f3f5f6",
-  "theme_color": "#263238",
-  "lang": "zh-Hant"
-}
+{"name":"淡江課表","short_name":"淡江課表","description":"淡江學生課表","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#f3f5f6","theme_color":"#263238","lang":"zh-Hant"}

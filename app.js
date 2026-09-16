@@ -1525,3 +1525,17 @@ if (
     );
 
 }
+
+document.getElementById(
+    "tkuLoginButton"
+).addEventListener(
+    "click",
+    () => {
+
+        window.open(
+            "https://sso.tku.edu.tw/NEAI/loginrwd.jsp",
+            "_blank"
+        );
+
+    }
+);

@@ -13,6 +13,73 @@ courses:[
 ]};
 
 let state=loadData(),currentWeekOffset=0,currentCourseId=null;
+
+function clearCoursesOnly() {
+  if (!confirm(
+    "確定要清除目前同步的課表嗎？\n\n" +
+    "自訂課名、備註、記事與顯示設定會保留。"
+  )) {
+    return;
+  }
+
+  state.courses = [];
+
+  saveData();
+  render();
+
+  alert("課表已清除。");
+}
+
+
+function logoutApp() {
+  if (!confirm(
+    "確定要登出並清除這台手機上的個人資料嗎？\n\n" +
+    "這會刪除：\n" +
+    "• 學生資料\n" +
+    "• 課表\n" +
+    "• 自訂課名\n" +
+    "• 備註\n" +
+    "• 記事\n\n" +
+    "顯示設定也會恢復預設值。"
+  )) {
+    return;
+  }
+
+  localStorage.removeItem(STORAGE_KEY);
+
+  state = {
+    version: 2,
+    semester: "",
+    student: {
+      name: "",
+      studentId: ""
+    },
+    display: clone(DEFAULT_DISPLAY),
+    courses: []
+  };
+
+  saveData();
+  render();
+
+  alert("已登出 App，並清除本機個人資料。");
+}
+
+function openTKUSSO() {
+  window.open(
+    "https://sso.tku.edu.tw/NEAI/loginrwd.jsp",
+    "_blank",
+    "width=500,height=800"
+  );
+}
+
+function logoutTKUSSO() {
+  window.open(
+    "https://sinfo.ais.tku.edu.tw/emisE/eTMW_OUT.aspx",
+    "_blank",
+    "width=600,height=500"
+  );
+}
+
 function clone(x){return JSON.parse(JSON.stringify(x))}
 function loadData(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return clone(DEMO);const p=JSON.parse(raw);p.display={...clone(DEFAULT_DISPLAY),...(p.display||{}),days:{...DEFAULT_DISPLAY.days,...(p.display?.days||{})},periods:{...DEFAULT_DISPLAY.periods,...(p.display?.periods||{})}};p.courses=Array.isArray(p.courses)?p.courses:[];return p}catch{return clone(DEMO)}}
 function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
@@ -94,6 +161,11 @@ function exportJSON(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"
 async function importJSON(file){try{const p=JSON.parse(await file.text());if(!Array.isArray(p.courses))throw new Error("缺少 courses");state=p;saveData();render();alert("匯入成功。")}catch(e){alert(`匯入失敗：${e.message}`)}}
 function clearData(){if(!confirm("確定刪除本機課表、備註、記事與顯示設定？"))return;localStorage.removeItem(STORAGE_KEY);state=clone(DEMO);saveData();render()}
 function updateNetwork(){document.getElementById("networkStatus").textContent=navigator.onLine?"目前有網路":"離線可用"}
+
+document.getElementById("tkuLoginButton").addEventListener("click",openTKUSSO);
+document.getElementById("tkuLogoutButton").addEventListener("click",logoutTKUSSO);
+document.getElementById("clearCoursesButton").addEventListener("click",clearCoursesOnly);
+document.getElementById("logoutAppButton").addEventListener("click",logoutApp);
 
 document.getElementById("prevWeek").addEventListener("click",()=>{currentWeekOffset--;renderHeader()});
 document.getElementById("nextWeek").addEventListener("click",()=>{currentWeekOffset++;renderHeader()});

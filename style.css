@@ -1,0 +1,386 @@
+:root {
+  --bg: #f2f4f6;
+  --card: #ffffff;
+  --text: #263238;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --primary: #37474f;
+  --primary-2: #455a64;
+  --danger: #b42318;
+  --shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.top-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+
+.status-title {
+  font-weight: 750;
+}
+
+.status-text {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--muted);
+  background: #fafafa;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.notice {
+  background: #fff8e1;
+  border: 1px solid #ffe08a;
+  color: #694c00;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.hidden { display: none !important; }
+
+.week-nav {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.week-nav > button,
+.icon-btn {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 12px;
+  min-height: 40px;
+}
+
+.week-title {
+  text-align: center;
+}
+
+#todayBtn {
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 750;
+}
+
+#weekLabel {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 70px repeat(5, minmax(140px, 1fr));
+  gap: 8px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.day-head {
+  text-align: center;
+  padding: 10px 6px;
+  font-weight: 750;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.period-label {
+  min-height: 86px;
+  padding: 12px 8px;
+  border-radius: 12px;
+  color: var(--muted);
+  background: transparent;
+  text-align: center;
+  font-size: 12px;
+}
+
+.day-column {
+  display: grid;
+  gap: 8px;
+}
+
+.slot {
+  min-height: 86px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.6);
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.course-card {
+  border-radius: 11px;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px;
+  min-height: 74px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+  text-align: left;
+  border: 0;
+  width: 100%;
+}
+
+.course-card:hover { background: var(--primary-2); }
+
+.course-name {
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.course-room, .course-time, .course-teacher {
+  opacity: .9;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.empty {
+  color: #9ca3af;
+  text-align: center;
+  padding-top: 30px;
+  font-size: 12px;
+}
+
+dialog {
+  width: min(680px, calc(100vw - 24px));
+  max-height: 90vh;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.24);
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(2px);
+}
+
+.dialog-form {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dialog-title {
+  font-weight: 800;
+  font-size: 21px;
+}
+
+.dialog-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 650;
+  font-size: 13px;
+}
+
+input, textarea {
+  width: 100%;
+  border: 1px solid #d6d9dd;
+  border-radius: 10px;
+  padding: 10px 11px;
+  background: #fff;
+  color: var(--text);
+}
+
+input[readonly], textarea[readonly] {
+  background: #f7f7f8;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.journal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.journal-list {
+  display: grid;
+  gap: 8px;
+}
+
+.journal-item {
+  border: 1px solid var(--line);
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.journal-date {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.primary,
+.secondary,
+.danger,
+.file-btn {
+  border-radius: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  min-height: 40px;
+}
+
+.primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.secondary {
+  background: #fff;
+  color: var(--text);
+}
+
+.danger {
+  background: #fff5f5;
+  color: var(--danger);
+  border-color: #f2c1c1;
+}
+
+.small {
+  min-height: 34px;
+  padding: 7px 10px;
+}
+
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fff;
+}
+
+.file-btn input { display: none; }
+
+.settings-block {
+  display: grid;
+  gap: 9px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+  .schedule-grid {
+    grid-template-columns: 52px repeat(5, 170px);
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .status-card {
+    align-items: flex-start;
+  }
+}
